@@ -195,10 +195,10 @@ static void mqtt_sub_callback(void *pcontext, void *pclient, iotx_mqtt_event_msg
 			fre = (*result-'0')*10+(*(result+1)-'0');
 		}
 
-	printf("Frequency %d\n",fre);
+    	printf("Frequency %d\n",fre);
 
-    set_led_fre(fre);
-	led_fre_upload_status=1;
+        set_led_fre(fre);
+	    led_fre_upload_status=1;
 
 	}
 
@@ -299,68 +299,68 @@ int mqtt_client(void)
         /* Generate topic message */
         cnt++;
 	    dht11_read(1,&humidity,&temperature);	
-    temperature = 32.10;
-	if(temperature>temp_val)
-	{		
-		alarm_status=1;				    
-		if(alarm_clear==0)							
-		{									     											    
-			sprintf(param, "{\"Temperature\":%f}",temperature);
-			int msg_len = snprintf(msg_pub,sizeof(msg_pub), ALINK_BODY_FORMAT, cnt, ALINK_METHOD_EVENT_POST, param);	
-			if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
-        		topic_msg.payload = (void *)msg_pub;
-       			topic_msg.payload_len = msg_len;	
-			rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
-			if (rc < 0) EXAMPLE_TRACE("Error occur when publish");														
-		    EXAMPLE_TRACE("Alink:\n%s\n",msg_pub);
-		 }						       
-    }
-    else		
-	{
-		alarm_status=0;
-    }
+        temperature = 32.10;
+	    if(temperature>temp_val)
+	    {		
+		    alarm_status=1;				    
+		    if(alarm_clear==0)							
+		    {									     											    
+		    	sprintf(param, "{\"Temperature\":%f}",temperature);
+			    int msg_len = snprintf(msg_pub,sizeof(msg_pub), ALINK_BODY_FORMAT, cnt, ALINK_METHOD_EVENT_POST, param);	
+			    if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
+        	    	topic_msg.payload = (void *)msg_pub;
+       			    topic_msg.payload_len = msg_len;	
+			    rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
+			    if (rc < 0) EXAMPLE_TRACE("Error occur when publish");														
+		        EXAMPLE_TRACE("Alink:\n%s\n",msg_pub);
+		    }						       
+        }
+        else		
+    	{
+	    	alarm_status=0;
+        }
 	
-	if(alarm_clear==1)
-	{
-		if(temperature<temp_val)
-		{
-			alarm_clear = 0;
-            alarm_status = 0;
-		}
-	}
-    if(led_fre_upload_status==1)
-	{
-		led_fre_upload_status = 0;
-		int fre = get_led_fre();
+    	if(alarm_clear==1)
+    	{
+    		if(temperature<temp_val)
+    		{
+    			alarm_clear = 0;
+                alarm_status = 0;
+	    	}
+    	}
+        if(led_fre_upload_status==1)
+	    {
+		    led_fre_upload_status = 0;
+		    int fre = get_led_fre();
 	       	printf("get_led_fre :%d\n",fre);
-		sprintf(param, "{\"Frequency\":%d}",fre);
-		int msg_len = snprintf(msg_pub,sizeof(msg_pub), ALINK_BODY_FORMAT, cnt, ALINK_METHOD_PROP_POST, param);
-		if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
+		    sprintf(param, "{\"Frequency\":%d}",fre);
+		    int msg_len = snprintf(msg_pub,sizeof(msg_pub), ALINK_BODY_FORMAT, cnt, ALINK_METHOD_PROP_POST, param);
+		    if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
 																                
         	topic_msg.payload = (void *)msg_pub;
        		topic_msg.payload_len = msg_len;	
-		rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
-		if (rc < 0) EXAMPLE_TRACE("error occur when publish");
+		    rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
+	    	if (rc < 0) EXAMPLE_TRACE("error occur when publish");
 																		
-		EXAMPLE_TRACE("Alink:\n%s\n",msg_pub);
-	}
+		    EXAMPLE_TRACE("Alink:\n%s\n",msg_pub);
+    	}   
 	
 	           
-    if(t_count>=20)
-    {
-	    t_count=0;
-	  	float temp = (float)temperature;
-		sprintf(param, "{\"Temperature\":%f}",temp);
-        int msg_len = snprintf(msg_pub,sizeof(msg_pub),ALINK_BODY_FORMAT, cnt, ALINK_METHOD_PROP_POST, param);
-	    if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
+        if(t_count>=20)
+        {
+	        t_count=0;
+	  	    float temp = (float)temperature;
+		    sprintf(param, "{\"Temperature\":%f}",temp);
+            int msg_len = snprintf(msg_pub,sizeof(msg_pub),ALINK_BODY_FORMAT, cnt, ALINK_METHOD_PROP_POST, param);
+	        if (msg_len < 0) EXAMPLE_TRACE("Error occur! Exit program");
         	    topic_msg.payload = (void *)msg_pub;
        		    topic_msg.payload_len = msg_len;	
-		rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
-	    if (rc < 0) EXAMPLE_TRACE("error occur when publish");
+		    rc = IOT_MQTT_Publish(pclient,ALINK_TOPIC_EVENT_PUB,&topic_msg);			
+	        if (rc < 0) EXAMPLE_TRACE("error occur when publish");
 		    EXAMPLE_TRACE("Alink:\n%s\n",msg_pub);
 																						    
-   }
-	t_count++;
+       }    
+	    t_count++;
 
 #ifdef MQTT_ID2_CRYPTO
         EXAMPLE_TRACE("packet-id=%u, publish topic msg='0x%02x%02x%02x%02x'...",
