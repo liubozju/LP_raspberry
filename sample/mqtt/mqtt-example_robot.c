@@ -24,7 +24,7 @@
 
 #include "iot_import.h"
 #include "iot_export.h"
-#include "sensor_dht11.h"
+//#include "sensor_dht11.h"
 #define DATA_POST_FORMAT          "{\"state\":{\"reported\": {\"temperature\":%.1f,\"humidity\":%.1f}}}"
 
 #define DATA_MSG_FORMAT		 "{\"IndoorTemperature\":%.1f, \"RelativeHumidity\":%.1f}"
@@ -289,7 +289,7 @@ int mqtt_client(void)
     do {
         /* Generate topic message */
         cnt++;
-    	dht11_read(1,&humidity,&temperature);	
+  //  	dht11_read(1,&humidity,&temperature);	
         msg_len = snprintf(msg_pub, sizeof(msg_pub), DATA_POST_FORMAT, temperature,humidity);
         if (msg_len < 0) {
             EXAMPLE_TRACE("Error occur! Exit program");

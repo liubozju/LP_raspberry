@@ -7,8 +7,8 @@
 #include <sys/time.h>
 #include <sys/select.h>
 
-//extern int alarm_status;
- int alarm_status;
+int alarm_status = 0;
+// int alarm_status;
 pthread_t led_thread;
 static int led_fre = 2;
 static void * ledcontrol(void * pin)

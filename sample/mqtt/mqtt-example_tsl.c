@@ -82,7 +82,7 @@ char __device_secret[DEVICE_SECRET_LEN + 1];
         HAL_Printf("%s", "\r\n"); \
     } while(0)
 
-int alarm_status = 0;
+extern int alarm_status;
 static int      user_argc;
 static char   **user_argv;
 static int temp_val = 32;

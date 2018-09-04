@@ -15,5 +15,4 @@ mqtt/mqtt-example_robot.o: \
  /home/wzh/c_sdk_tsl/src/sdk-impl/exports/iot_export_fota.h \
  /home/wzh/c_sdk_tsl/src/sdk-impl/imports/iot_import_config.h \
  /home/wzh/c_sdk_tsl/src/sdk-impl/imports/iot_import_product.h \
- /home/wzh/c_sdk_tsl/src/sdk-impl/itls.h \
- /home/wzh/c_sdk_tsl/src/sdk-impl/sensor_dht11.h
+ /home/wzh/c_sdk_tsl/src/sdk-impl/itls.h
