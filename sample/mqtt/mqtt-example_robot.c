@@ -24,20 +24,8 @@
 
 #include "iot_import.h"
 #include "iot_export.h"
-//#include "sensor_dht11.h"
+#include "sensor_dht11.h"
 #define DATA_POST_FORMAT          "{\"state\":{\"reported\": {\"temperature\":%.1f,\"humidity\":%.1f}}}"
-
-#define DATA_MSG_FORMAT		 "{\"IndoorTemperature\":%.1f, \"RelativeHumidity\":%.1f}"
-
-#define ALINK_BODY_FORMAT        	 "{\"id\":\"%d\",\"version\":\"1.0\",\"params\":%s,\"method\":\"%s\"}"
-#define ALINK_TOPIC_PROP_POST    	 "/sys/"PRODUCT_KEY"/"DEVICE_NAME"/thing/event/property/post"
-#define ALINK_TOPIC_PROP_POSTRSP 	 "/sys/"PRODUCT_KEY"/"DEVICE_NAME"/thing/event/property/post_reply"
-#define ALINK_TOPIC_PROP_SET     	 "/sys/"PRODUCT_KEY"/"DEVICE_NAME"/thing/service/property/set"
-#define ALINK_METHOD_PROP_POST   	 "thing.event.property.post"
-#define ALINK_METHOD_EVENT_POST   	 "thing.event.Alarm.post"
-
-#define ALINK_TOPIC_SER_SUB     	 "/sys/"PRODUCT_KEY"/"DEVICE_NAME"/thing/service/ClearAlarm"
-#define ALINK_TOPIC_EVENT_PUB     	 "/sys/"PRODUCT_KEY"/"DEVICE_NAME"/thing/event/Alarm/post"
 
 #if defined(MQTT_ID2_AUTH) && defined(ON_DAILY)
     #define PRODUCT_KEY             "JtZ0MzJX8g6"
@@ -289,7 +277,7 @@ int mqtt_client(void)
     do {
         /* Generate topic message */
         cnt++;
-  //  	dht11_read(1,&humidity,&temperature);	
+      	dht11_read(1,&humidity,&temperature);	
         msg_len = snprintf(msg_pub, sizeof(msg_pub), DATA_POST_FORMAT, temperature,humidity);
         if (msg_len < 0) {
             EXAMPLE_TRACE("Error occur! Exit program");
@@ -319,10 +307,6 @@ int mqtt_client(void)
         /* handle the MQTT packet received from TCP or SSL connection */
         IOT_MQTT_Yield(pclient, 200);
 
-        /* infinite loop if running with 'loop' argument */
-        if (user_argc >= 2 && !strcmp("loop", user_argv[1])) {
-            HAL_SleepMs(2000);
-            cnt = 0;
         }
 
     } while (1);
